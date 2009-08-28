@@ -10,18 +10,18 @@ class DialogNode(cocos.batch.BatchableNode):
     def __init__(self, dialog=None):
         super(DialogNode, self).__init__()
         self.dialog = dialog
-        
-    def set_batch(self, batch, group):
+
+    def set_batch(self, batch, group=None, z=0):
         super(DialogNode, self).set_batch(batch, group)
         if self.dialog is not None:
             self.dialog.batch = self.batch
             self.dialog.group = self.group
-            
+
     def delete(self, dialog=None):
+        self.dialog.teardown()
         super(DialogNode, self).on_exit()
         self.parent.remove(self)
-        self.dialog.teardown()
-              
+
     def draw(self):
         pass
         
