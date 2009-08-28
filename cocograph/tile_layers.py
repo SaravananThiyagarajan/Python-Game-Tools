@@ -97,7 +97,9 @@ def _on_prop_container_edit(prop_container, parent_dnode, filename=None):
             for ns, res in parent_dnode.level_to_edit.requires:
                 if prop_container in res.contents.itervalues():
                     resource = res
-            in_tree = ElementTree.parse(resource.filename)
+            dirname = os.path.dirname(parent_dnode.level_to_edit.filename)
+            xmlname = os.path.join(dirname, resource.filename)
+            in_tree = ElementTree.parse(xmlname)
             root = ElementTree.Element('resource')
             root.text = '\n'
             root.tail = '\n'
@@ -123,7 +125,7 @@ def _on_prop_container_edit(prop_container, parent_dnode, filename=None):
                             t_element, 'image', ref=k)
                         img_element.tail = '\n'
             out_tree = ElementTree.ElementTree(root)
-            out_tree.write(resource.filename)
+            out_tree.write(xmlname)
         dnode.delete()
     
     try:
@@ -172,9 +174,11 @@ class TilesetDialog(DialogNode):
                 def on_open_click(filename):
                     r = tiles.load(filename)
                     self._load_tilesets(r)
-                    #~ level_dir = os.path.split(
-                        #~ level_to_edit.filename)[0] + os.sep
-                    #~ r.filename = r.filename.replace(level_dir, '')
+                    level_dir = os.path.split(
+                        level_to_edit.filename)[0] + os.sep
+                    # tilesets should be relative to maps
+                    r.filename = r.filename.replace(level_dir, '')
+                    r.filename = r.filename.replace('\\', '/')
                     self.level_to_edit.requires.append(('',r))
                     dnode.dialog.on_escape(dnode.dialog)
                     
@@ -453,6 +457,7 @@ class ToolMenuDialog(DialogNode):
                 on_select=on_save,
                 on_escape=save_dnode.delete)
             self.parent.add(save_dnode)
+            dnode.dialog.on_escape(dnode.dialog)
 
         dnode.dialog = PropertyDialog('New Map', properties=options, 
             window=self.dialog.window, 

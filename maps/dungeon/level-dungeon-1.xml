@@ -1,9 +1,9 @@
-<resource><requires file="D:\Projects\Python\cocograph\maps\dungeon\data/tiles.xml" />
-<rectmap id="ground" origin="0,0,0" tile_size="64x64"><property name="coin-reward" type="unicode" value="100" />
+<resource><requires file="tiles.xml" />
+<rectmap id="ground" origin="0,0,0" tile_size="64x64"><property name="coin-reward" type="int" value="100" />
 <property name="world-position" type="unicode" value="113,227" />
 <property name="unlocks" type="unicode" value="level-dungeon-2.xml" />
 <property name="name" type="unicode" value="Start Dungeon" />
-<property name="xp-reward" type="unicode" value="1" />
+<property name="xp-reward" type="int" value="1" />
 <property name="type" type="unicode" value="tactical" />
 <property name="icon" type="unicode" value="icon-dungeon.png" />
 <column><cell tile="ground-dark-dirt" />
@@ -138,9 +138,12 @@
 </column>
 <column><cell tile="ground-dark-dirt" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
@@ -203,79 +206,20 @@
 </column>
 <column><cell tile="ground-dark-dirt" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
-<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" /></cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
+<cell tile="ground-cobble"><property name="player-spawn" type="unicode" value="True" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="kobold" /><property name="next-waypoint" type="unicode" value="8, 9" /><property name="npc-name" type="unicode" value="Close NPC" /></cell>
-<cell tile="ground-cobble" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-</column>
-<column><cell tile="ground-dark-dirt" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
+<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="kobold" />
+<property name="next-waypoint" type="unicode" value="8, 9" />
+<property name="npc-name" type="unicode" value="Close NPC" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -340,7 +284,7 @@
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="kobold" /></cell>
+<cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -402,10 +346,12 @@
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
+<cell tile="ground-dark-dirt"><property name="is_cat" type="bool" value="True" />
+</cell>
+<cell tile="ground-dark-dirt" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
+<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="kobold" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -535,7 +481,73 @@
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="next-waypoint" type="unicode" value="3, 9" /></cell>
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+</column>
+<column><cell tile="ground-dark-dirt" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble"><property name="next-waypoint" type="unicode" value="3, 9" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -664,71 +676,6 @@
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-</column>
-<column><cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-dark-dirt" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
-<cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -1052,7 +999,75 @@
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="npc-equipment" type="unicode" value="ranged_crap" /><property name="npc-class" type="unicode" value="kobold" /><property name="npc-name" type="unicode" value="Archer NPC" /></cell>
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+</column>
+<column><cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-dark-dirt" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble" />
+<cell tile="ground-cobble"><property name="npc-equipment" type="unicode" value="ranged_crap" />
+<property name="npc-class" type="unicode" value="kobold" />
+<property name="npc-name" type="unicode" value="Archer NPC" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-dark-dirt" />
@@ -1181,7 +1196,9 @@
 <cell tile="ground-dark-dirt" />
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
-<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="goblin" /><property name="npc-name" type="unicode" value="Ironcap" /></cell>
+<cell tile="ground-cobble"><property name="npc-class" type="unicode" value="goblin" />
+<property name="npc-name" type="unicode" value="Ironcap" />
+</cell>
 <cell tile="ground-cobble" />
 <cell tile="ground-cobble" />
 <cell tile="ground-dark-dirt" />

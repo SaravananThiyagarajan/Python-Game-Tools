@@ -383,12 +383,12 @@ class PropertyDialog(Dialog):
         def on_ok_click(dialog=None):
             if on_ok is not None:
                 on_ok(self)
-            self.teardown()
+            #self.teardown()
 
         def on_cancel_click(dialog=None):
             if on_cancel is not None:
                 on_cancel(self)
-            self.teardown()
+            #self.teardown()
             
         self.remove = remove
         self._has_remove = has_remove
