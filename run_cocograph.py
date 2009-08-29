@@ -1,3 +1,5 @@
+import os
+
 import pyglet
 # Disable error checking for increased performance
 pyglet.options['debug_gl'] = False
@@ -13,7 +15,7 @@ import kytten
 import cocograph
 from cocograph import tile_layers
 
-#~ pyglet.resource.path.append('maps/dungeon/data')
+#~ pyglet.resource.path.append('maps/road/')
 #~ pyglet.resource.reindex()
 
 if __name__ == '__main__':

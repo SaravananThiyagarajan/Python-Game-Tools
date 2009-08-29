@@ -404,7 +404,6 @@ def image_factory(resource, tag):
     filename = resource.find_file(tag.get('file'))
     if not filename:
         raise ResourceError('No file= on <image> tag')
-    # XXX use pyglet.resource
     image = pyglet.image.load(filename)
 
     image.properties = _handle_properties(tag)
@@ -420,8 +419,8 @@ def imageatlas_factory(resource, tag):
     filename = resource.find_file(tag.get('file'))
     if not filename:
         raise ResourceError('No file= on <imageatlas> tag')
-    # XXX use pyglet.resource
     atlas = pyglet.image.load(filename)
+    #atlas = pyglet.resource.image(tag.get('file'))
     atlas.properties = _handle_properties(tag)
     if tag.get('id'):
         atlas.id = tag.get('id')
@@ -925,9 +924,8 @@ class Cell(object):
             v = self.properties[k]
             t = type(v)
             v = _python_to_xml[t](v)
-            p = ElementTree.SubElement(c, 'property', name=k, value=v,
+            ElementTree.SubElement(c, 'property', name=k, value=v,
                 type=_xml_type[t])
-            p.tail = '\n'
 
     def __contains__(self, key):
         if key in self.properties:
@@ -1263,14 +1261,14 @@ class ScrollingManager(cocos.layer.Layer):
         # initialise the viewport stuff
         if viewport is None:
             import director
-            self.view_w, self.view_h = director.director.get_window_size()
-        else:
-            self.view_w, self.view_h = viewport.width, viewport.height
+            viewport = director.director.window
+        self.viewport = viewport
 
         # These variables define the Layer-space pixel view which is mapping
         # to the viewport. If the Layer is not scrolled or scaled then this
         # will be a one to one mapping.
         self.view_x, self.view_y = 0, 0
+        self.view_w, self.view_h = self.viewport.width, self.viewport.height
 
         # Focal point on the Layer
         self.fx = self.fy = 0
@@ -1381,8 +1379,8 @@ class ScrollingManager(cocos.layer.Layer):
         b_max_y = min(y2)
 
         # get our viewport information, scaled as appropriate
-        w = int(self.view_w / self.scale)
-        h = int(self.view_h / self.scale)
+        w = int(self.viewport.width / self.scale)
+        h = int(self.viewport.height / self.scale)
         w2, h2 = w//2, h//2
 
         # check for the minimum, and then maximum bound
@@ -1401,6 +1399,7 @@ class ScrollingManager(cocos.layer.Layer):
         # determine child view bounds to match that focus point
         x, y = int(fx - w2), int(fy - h2)
         self.view_x, self.view_y = x, y
+        self.view_w, self.view_h = w, h
         for z, layer in self.children:
             layer.set_view(x, y, w, h)
 
@@ -1417,14 +1416,15 @@ class ScrollingManager(cocos.layer.Layer):
         self.fx, self.fy = map(int, (fx, fy))
 
         # get our scaled view size
-        w = int(self.view_w / self.scale)
-        h = int(self.view_h / self.scale)
+        w = int(self.viewport.width / self.scale)
+        h = int(self.viewport.height / self.scale)
         cx, cy = w//2, h//2
 
         # bottom-left corner of the
         x, y = fx - cx * self.scale, fy - cy * self.scale
 
         self.view_x, self.view_y = x, y
+        self.view_w, self.view_h = w, h
 
         # translate the layers to match focus
         for z, layer in self.children:

@@ -73,6 +73,7 @@
 <image ref="i-roof-l" />
 </tile>
 <tile id="ground-grass">
+<property name="no_more" type="float" value="3.1444444443999999" />
 <image ref="i-ground-grass" />
 </tile>
 <tile id="roof-b">
@@ -106,16 +107,16 @@
 <property name="impassable" type="bool" value="True" />
 <image ref="i-sand-block-1" />
 </tile>
-<tile id="roof-br">
-<property name="impassable" type="bool" value="True" />
-<image ref="i-roof-br" />
+<tile id="water-grass-r">
+<image ref="i-water-grass-r" />
 </tile>
 <tile id="sand-block-2">
 <property name="impassable" type="bool" value="True" />
 <image ref="i-sand-block-2" />
 </tile>
-<tile id="water-grass-l">
-<image ref="i-water-grass-l" />
+<tile id="roof-bl">
+<property name="impassable" type="bool" value="True" />
+<image ref="i-roof-bl" />
 </tile>
 <tile id="ground-dark-dirt">
 <property name="impassable" type="bool" value="True" />
@@ -124,8 +125,9 @@
 <tile id="water-grass-t">
 <image ref="i-water-grass-t" />
 </tile>
-<tile id="water-grass-r">
-<image ref="i-water-grass-r" />
+<tile id="roof-br">
+<property name="impassable" type="bool" value="True" />
+<image ref="i-roof-br" />
 </tile>
 <tile id="ground-cobble">
 <image ref="i-ground-cobble" />
@@ -143,9 +145,8 @@
 <tile id="water-grass-b">
 <image ref="i-water-grass-b" />
 </tile>
-<tile id="roof-bl">
-<property name="impassable" type="bool" value="True" />
-<image ref="i-roof-bl" />
+<tile id="water-grass-l">
+<image ref="i-water-grass-l" />
 </tile>
 </tileset>
 </resource>

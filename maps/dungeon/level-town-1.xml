@@ -1,4 +1,4 @@
-<resource><requires file="data/tiles.xml" />
+<resource><requires file="tiles.xml" />
 <rectmap id="ground" origin="0,0,0" tile_size="64x64"><property name="type" type="unicode" value="crawl" />
 <property name="name" type="unicode" value="Start Town" />
 <property name="world-position" type="unicode" value="101,112" />

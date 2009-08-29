@@ -572,10 +572,10 @@ class TileEditorLayer(tiles.ScrollableLayer):
             m = self.map_layers.selected
             mx, my = self.parent.pixel_from_screen(x, y)
             cell = m.get_at_pixel(mx, my)
-            self._current_cell = cell
             if not cell:
                 # click not in map
                 return
+            self._current_cell = cell
             cx, cy = sprite_key = cell.origin[:2]
             if modifiers & pyglet.window.key.MOD_ACCEL:
                 _on_prop_container_edit(cell, self.tiles)
@@ -624,7 +624,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
             cell = m.get_at_pixel(mx, my)
             
             #don't update if we haven't moved to a new cell
-            if cell == self._current_cell or not cell:
+            if cell is None or cell == self._current_cell:
                 return
             cx, cy = sprite_key = cell.origin[:2]
             self._current_cell = cell
