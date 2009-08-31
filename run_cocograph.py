@@ -15,8 +15,8 @@ import kytten
 import cocograph
 from cocograph import tile_layers
 
-#~ pyglet.resource.path.append('maps/road/')
-#~ pyglet.resource.reindex()
+pyglet.resource.path.append('maps/dungeon/')
+pyglet.resource.reindex()
 
 if __name__ == '__main__':
     import sys
