@@ -1,4 +1,5 @@
-<resource><image file="beach-g-tr.png" id="i-beach-g-tr" />
+<resource>
+<image file="beach-g-tr.png" id="i-beach-g-tr" />
 <image file="block.png" id="i-block" />
 <image file="cobble-wall-b.png" id="i-cobble-wall-b" />
 <image file="cobble-wall-bl.png" id="i-cobble-wall-bl" />
@@ -44,51 +45,146 @@
 <image file="water-grass-tl.png" id="i-water-grass-tl" />
 <image file="water-grass-tr.png" id="i-water-grass-tr" />
 <image file="water.png" id="i-water" />
-<tileset id="new_tiles"><tile id="beach-g-tr"><image ref="i-beach-g-tr" /></tile>
-<tile id="block"><image ref="i-block" /></tile>
-<tile id="cobble-wall-b"><image ref="i-cobble-wall-b" /></tile>
-<tile id="cobble-wall-bl"><image ref="i-cobble-wall-bl" /></tile>
-<tile id="cobble-wall-blr"><image ref="i-cobble-wall-blr" /></tile>
-<tile id="cobble-wall-br"><image ref="i-cobble-wall-br" /></tile>
-<tile id="cobble-wall-bt"><image ref="i-cobble-wall-bt" /></tile>
-<tile id="cobble-wall-btl"><image ref="i-cobble-wall-btl" /></tile>
-<tile id="cobble-wall-btr"><image ref="i-cobble-wall-btr" /></tile>
-<tile id="cobble-wall-l"><image ref="i-cobble-wall-l" /></tile>
-<tile id="cobble-wall-lr"><image ref="i-cobble-wall-lr" /></tile>
-<tile id="cobble-wall-r"><image ref="i-cobble-wall-r" /></tile>
-<tile id="cobble-wall-t"><image ref="i-cobble-wall-t" /></tile>
-<tile id="cobble-wall-tl"><image ref="i-cobble-wall-tl" /></tile>
-<tile id="cobble-wall-tlr"><image ref="i-cobble-wall-tlr" /></tile>
-<tile id="cobble-wall-tr"><image ref="i-cobble-wall-tr" /></tile>
-<tile id="grass-too"><image ref="i-grass-too" /></tile>
-<tile id="grass"><image ref="i-grass" /></tile>
-<tile id="ground-cobble"><image ref="i-ground-cobble" /></tile>
-<tile id="ground-dark-dirt"><image ref="i-ground-dark-dirt" /></tile>
-<tile id="ground-dirt"><image ref="i-ground-dirt" /></tile>
-<tile id="icon-green-box"><image ref="i-icon-green-box" /></tile>
-<tile id="roof-b"><image ref="i-roof-b" /></tile>
-<tile id="roof-bl"><image ref="i-roof-bl" /></tile>
-<tile id="roof-br"><image ref="i-roof-br" /></tile>
-<tile id="roof-l"><image ref="i-roof-l" /></tile>
-<tile id="roof-r"><image ref="i-roof-r" /></tile>
-<tile id="roof-t"><image ref="i-roof-t" /></tile>
-<tile id="roof-tl"><image ref="i-roof-tl" /></tile>
-<tile id="roof-tr"><image ref="i-roof-tr" /></tile>
-<tile id="roof"><image ref="i-roof" /></tile>
-<tile id="sand-block-1"><image ref="i-sand-block-1" /></tile>
-<tile id="sand-block-2"><image ref="i-sand-block-2" /></tile>
-<tile id="sand-floor-1"><image ref="i-sand-floor-1" /></tile>
-<tile id="sand-floor-2"><image ref="i-sand-floor-2" /></tile>
-<tile id="sand-floor-3"><image ref="i-sand-floor-3" /></tile>
-<tile id="stone-road"><image ref="i-stone-road" /></tile>
-<tile id="water-grass-b"><image ref="i-water-grass-b" /></tile>
-<tile id="water-grass-bl"><image ref="i-water-grass-bl" /></tile>
-<tile id="water-grass-br"><image ref="i-water-grass-br" /></tile>
-<tile id="water-grass-l"><image ref="i-water-grass-l" /></tile>
-<tile id="water-grass-r"><image ref="i-water-grass-r" /></tile>
-<tile id="water-grass-t"><image ref="i-water-grass-t" /></tile>
-<tile id="water-grass-tl"><image ref="i-water-grass-tl" /></tile>
-<tile id="water-grass-tr"><image ref="i-water-grass-tr" /></tile>
-<tile id="water"><image ref="i-water" /></tile>
+<tileset id="new_tiles">
+<tile id="roof-tl">
+<image ref="i-roof-tl" />
+</tile>
+<tile id="stone-road">
+<image ref="i-stone-road" />
+</tile>
+<tile id="roof-t">
+<image ref="i-roof-t" />
+</tile>
+<tile id="ground-dark-dirt">
+<image ref="i-ground-dark-dirt" />
+</tile>
+<tile id="roof-r">
+<image ref="i-roof-r" />
+</tile>
+<tile id="roof-tr">
+<image ref="i-roof-tr" />
+</tile>
+<tile id="roof-l">
+<property name="dsffsa" type="unicode" value="dsafd" />
+<image ref="i-roof-l" />
+</tile>
+<tile id="roof-b">
+<image ref="i-roof-b" />
+</tile>
+<tile id="beach-g-tr">
+<image ref="i-beach-g-tr" />
+</tile>
+<tile id="cobble-wall-tlr">
+<image ref="i-cobble-wall-tlr" />
+</tile>
+<tile id="cobble-wall-tr">
+<image ref="i-cobble-wall-tr" />
+</tile>
+<tile id="cobble-wall-l">
+<image ref="i-cobble-wall-l" />
+</tile>
+<tile id="cobble-wall-b">
+<image ref="i-cobble-wall-b" />
+</tile>
+<tile id="cobble-wall-btr">
+<image ref="i-cobble-wall-btr" />
+</tile>
+<tile id="cobble-wall-btl">
+<image ref="i-cobble-wall-btl" />
+</tile>
+<tile id="cobble-wall-r">
+<image ref="i-cobble-wall-r" />
+</tile>
+<tile id="cobble-wall-blr">
+<image ref="i-cobble-wall-blr" />
+</tile>
+<tile id="cobble-wall-tl">
+<image ref="i-cobble-wall-tl" />
+</tile>
+<tile id="cobble-wall-lr">
+<image ref="i-cobble-wall-lr" />
+</tile>
+<tile id="cobble-wall-t">
+<image ref="i-cobble-wall-t" />
+</tile>
+<tile id="sand-floor-1">
+<image ref="i-sand-floor-1" />
+</tile>
+<tile id="sand-floor-2">
+<image ref="i-sand-floor-2" />
+</tile>
+<tile id="sand-floor-3">
+<image ref="i-sand-floor-3" />
+</tile>
+<tile id="water-grass-bl">
+<image ref="i-water-grass-bl" />
+</tile>
+<tile id="cobble-wall-bl">
+<image ref="i-cobble-wall-bl" />
+</tile>
+<tile id="icon-green-box">
+<image ref="i-icon-green-box" />
+</tile>
+<tile id="water">
+<image ref="i-water" />
+</tile>
+<tile id="grass-too">
+<image ref="i-grass-too" />
+</tile>
+<tile id="cobble-wall-br">
+<image ref="i-cobble-wall-br" />
+</tile>
+<tile id="cobble-wall-bt">
+<image ref="i-cobble-wall-bt" />
+</tile>
+<tile id="water-grass-br">
+<image ref="i-water-grass-br" />
+</tile>
+<tile id="sand-block-1">
+<image ref="i-sand-block-1" />
+</tile>
+<tile id="roof-br">
+<image ref="i-roof-br" />
+</tile>
+<tile id="sand-block-2">
+<image ref="i-sand-block-2" />
+</tile>
+<tile id="roof-bl">
+<property name="dasfsa" type="unicode" value="dsafsa" />
+<image ref="i-roof-bl" />
+</tile>
+<tile id="water-grass-t">
+<image ref="i-water-grass-t" />
+</tile>
+<tile id="water-grass-r">
+<image ref="i-water-grass-r" />
+</tile>
+<tile id="ground-dirt">
+<image ref="i-ground-dirt" />
+</tile>
+<tile id="ground-cobble">
+<image ref="i-ground-cobble" />
+</tile>
+<tile id="roof">
+<image ref="i-roof" />
+</tile>
+<tile id="water-grass-tl">
+<image ref="i-water-grass-tl" />
+</tile>
+<tile id="water-grass-tr">
+<image ref="i-water-grass-tr" />
+</tile>
+<tile id="water-grass-b">
+<image ref="i-water-grass-b" />
+</tile>
+<tile id="water-grass-l">
+<image ref="i-water-grass-l" />
+</tile>
+<tile id="grass">
+<image ref="i-grass" />
+</tile>
+<tile id="block">
+<image ref="i-block" />
+</tile>
 </tileset>
 </resource>

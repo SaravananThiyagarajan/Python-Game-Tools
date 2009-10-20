@@ -66,17 +66,18 @@ class DialogLayer(cocos.layer.Layer):
             c.dialog.on_mouse_motion(x, y, dx, dy)
             if c.dialog.hover is not None:
                 return True
-            else:
-                c.dialog.set_focus(None)
+            #~ else:
+                #~ c.dialog.set_focus(None)
 
     def on_mouse_press(self, x, y, button, modifiers):
         was_handled = False
         for c in self.batchnode.get_children():
             if c.dialog.on_mouse_press(x, y, button, modifiers):
                 was_handled = True
+            else:
+                c.dialog.set_wheel_hint(None)
+                c.dialog.set_wheel_target(None)
         return was_handled
-            #~ c.dialog.set_wheel_hint(None)
-            #~ c.dialog.set_wheel_target(None)
 
     def on_mouse_release(self, x, y, button, modifiers):
         was_handled = False

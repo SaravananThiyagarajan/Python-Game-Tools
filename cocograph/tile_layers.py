@@ -34,7 +34,7 @@ from cocos.director import director
 from tile_dialogs import *
 
 
-VERSION = 'Cocograph 1.0a1'
+VERSION = 'Cocograph 0.4'
 
 def _zoom_in(scale):
     if scale > 4: return scale
@@ -136,7 +136,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
             
             # ctrl-click edit tile properties
             if modifiers & pyglet.window.key.MOD_ACCEL:
-                _on_prop_container_edit(cell, self.tiles)
+                on_prop_container_edit(cell, self.tiles)
             elif self.tools.active_tool is 'zoom':
                 if buttons & pyglet.window.mouse.LEFT:
                     self._desired_scale = _zoom_in(self._desired_scale)
@@ -185,38 +185,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
                     if next_c and next_c.tile is old_tile:
                         cells_to_fill.append(next_c)
                 m.set_dirty()
-
-                        
-
-#~ void floodFill4Stack(int x, int y, int newColor, int oldColor)
-#~ {
-    #~ if(newColor == oldColor) return; //avoid infinite loop
-    #~ emptyStack();
-      #~ 
-    #~ if(!push(x, y)) return; 
-    #~ while(pop(x, y))
-    #~ {
-        #~ screenBuffer[x][y] = newColor;
-        #~ if(x + 1 < w && screenBuffer[x + 1][y] == oldColor)
-        #~ {          
-            #~ if(!push(x + 1, y)) return;           
-        #~ }    
-        #~ if(x - 1 >= 0 && screenBuffer[x - 1][y] == oldColor)
-        #~ {
-            #~ if(!push(x - 1, y)) return;           
-        #~ }    
-        #~ if(y + 1 < h && screenBuffer[x][y + 1] == oldColor)
-        #~ {
-            #~ if(!push(x, y + 1)) return;           
-        #~ }    
-        #~ if(y - 1 >= 0 && screenBuffer[x][y - 1] == oldColor)
-        #~ {
-            #~ if(!push(x, y - 1)) return;           
-        #~ }    
-    #~ }     
-#~ }
-
-
+                
             return True
             
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
@@ -297,13 +266,20 @@ class ScrollableColorLayer(cocos.layer.util_layers.ColorLayer,
         super(ScrollableColorLayer, self).__init__(
             r,g,b,a, width, height)
         self.px_width, self.px_height = width, height
+        
+class Selector(list):
+    def __init__(self, lst):
+        super(Selector, self).__init__(lst)
+        self.selected = self[0]
+
+    def select(self, i):
+        self.selected = self[i]
 
 class EditorScene(cocos.scene.Scene):
     def __init__(self):
         super(EditorScene, self).__init__()
         self.manager = tiles.ScrollingManager()
         self.add(self.manager)
-        self.map_layers = []
         self.dialog_layer = DialogLayer()
         self.editor_layer = None
         self.tool_dialog = ToolMenuDialog(director.window, 
@@ -328,37 +304,47 @@ class EditorScene(cocos.scene.Scene):
             #~ self.tool_dialog = ToolMenuDialog(director.window, 
                                               #~ on_open=self.open)
             #~ return
+        #self.map_layers = level_to_edit.findall(tiles.MapLayer)
+        director.window.set_caption(edit_level_xml + " - " + VERSION)
+        
+        # Setup map layers
+        mz = 0
+        for id, layer in level_to_edit.find(tiles.MapLayer):
+            #map_layers.append(layer)
+            self.manager.add(layer, z=layer.origin_z)
+            mz = max(layer.origin_z, mz)
+        
+        # Reverse z-sorted manager.children so top layer is Selector[0]
+        self.layer_selector = Selector(
+            self.manager.get_children()[:])
             
-        # Setup new dialogs and layers   
-        director.window.set_caption(edit_level_xml + ' - ' + VERSION)
+        bg_layer = ScrollableColorLayer(
+            255, 255, 255, 255, 
+            width=self.layer_selector.selected.px_width, 
+            height=self.layer_selector.selected.px_height)
+        self.manager.add(bg_layer, z=-1)
+
+        # Setup new dialogs  
         self.selected = level_to_edit.find(tiles.MapLayer).next()[1]
         self.tile_dialog = TilesetDialog(director.window, level_to_edit) 
         def on_save():
             level_to_edit.save_xml(edit_level_xml)
-        def on_edit():
-            _on_prop_container_edit(self.selected, self.tool_dialog)
-        self.tool_dialog = ToolMenuDialog(director.window, 
-            on_open=self.open, on_save=on_save, on_edit=on_edit)
-        
-        bg_layer = ScrollableColorLayer(255, 255, 255, 255, 
-            width=self.selected.px_width, 
-            height=self.selected.px_height)
-        self.manager.add(bg_layer, z=-1)
-        mz = 0
-        for id, layer in level_to_edit.find(tiles.MapLayer):
-            self.map_layers.append(layer)
-            self.manager.add(layer, z=layer.origin_z)
-            mz = max(layer.origin_z, mz)
+        self.tool_dialog = ToolMenuDialog(
+            director.window, 
+            on_open=self.open, 
+            on_save=on_save,
+            map_layers=self.layer_selector,
+            level_to_edit=level_to_edit)
+        self.dialog_layer.add_dialog(self.tile_dialog)
+        self.dialog_layer.add_dialog(self.tool_dialog)
 
         self.editor_layer = TileEditorLayer(
             level_to_edit=level_to_edit, tiles=self.tile_dialog, 
-            map_layers=self, tools=self.tool_dialog, 
+            map_layers=self.layer_selector, tools=self.tool_dialog, 
             filename=edit_level_xml)
-            
         self.manager.add(self.editor_layer, z=mz+1)
+        
         self.add(self.manager)
-        self.dialog_layer.add_dialog(self.tile_dialog)
-        self.dialog_layer.add_dialog(self.tool_dialog)
         
         # XXX if I don't remove and add the dlayer event handling is 
         # messed up...why?

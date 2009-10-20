@@ -53,10 +53,7 @@ the_theme = kytten.Theme(os.path.join(os.getcwd(), 'theme'), override={
     "font_size": 12,
 })
 
-def _on_escape(dialog):
-    dialog.teardown() 
-
-def _on_prop_container_edit(prop_container, parent_dnode, filename=None):
+def on_prop_container_edit(prop_container, parent_dnode, filename=None):
     if prop_container is None:
         return
     options = prop_container.properties.iteritems()
@@ -110,7 +107,8 @@ def _on_prop_container_edit(prop_container, parent_dnode, filename=None):
                 root.append(img_element)
             for atlas_element in in_tree.findall('imageatlas'):
                 root.append(atlas_element)
-            tset_element = _generic_as_xml(parent_dnode.active_tileset, root, 'tileset')
+            tset_element = _generic_as_xml(
+                parent_dnode.active_tileset, root, 'tileset')
             for n, k in enumerate(parent_dnode.active_tileset):
                 t = parent_dnode.active_tileset[k]
                 t_element = _generic_as_xml(t, tset_element, 'tile')
@@ -170,8 +168,9 @@ class TilesetDialog(DialogNode):
                 
                 def on_open_click(filename):
                     r = tiles.load(filename)
+                    # XXX Maybe more error checking?
                     self._load_tilesets(r)
-                    
+                    self._make_resource_relative(r)
                     dnode.dialog.on_escape(dnode.dialog)
                     
                 dnode.dialog = kytten.FileLoadDialog(
@@ -229,7 +228,7 @@ class TilesetDialog(DialogNode):
         for id, ts in resource.findall(tiles.TileSet):
             if id is None:
                 self._id_count += 1
-                id = 'Untitled'+str(self._id_count)
+                id = 'Untitled' + str(self._id_count)
             self.tilesets[id] = ts
             select_id = id
         try:
@@ -247,8 +246,9 @@ class TilesetDialog(DialogNode):
         for id, tset in self.tilesets.iteritems():
             tile_options = [[]]
             tile_options.append([])
-            for i, k in enumerate(tset):
-                option = TilePaletteOption(id=k, 
+            for i, k in enumerate(sorted(tset)): # Sort to keep order
+                option = TilePaletteOption(
+                    id=k, 
                     image=tset[k].image, 
                     scale_size=self.tile_size, 
                     on_edit=self._on_tile_edit)
@@ -273,7 +273,18 @@ class TilesetDialog(DialogNode):
             
     def _on_tile_edit(self, id):
         tile = self.active_tileset[id]
-        _on_prop_container_edit(tile, self)
+        on_prop_container_edit(tile, self)
+        
+    def _make_resource_relative(self, resource):
+        # Tilesets filename should be relative to maps
+        level_dir = os.path.split(
+            self.level_to_edit.filename)[0] + os.sep
+            
+        # Remove map path from tileset filename
+        if level_dir is not '/':
+            resource.filename = resource.filename.replace(level_dir, '')
+        resource.filename = resource.filename.replace('\\', '/')
+        self.level_to_edit.requires.append(('', resource))
         
     def _create_new_dialog(self):
         dnode = DialogNode()
@@ -313,17 +324,9 @@ class TilesetDialog(DialogNode):
                     tree.write(filepath)
                     r = tiles.load(filepath)
                     self._load_tilesets(r)
-                    
-                    # Tilesets filename should be relative to maps
-                    level_dir = os.path.split(
-                        self.level_to_edit.filename)[0] + os.sep
-                        
-                    # Remove map path from tileset filename
-                    r.filename = r.filename.replace(level_dir, '')
-                    r.filename = r.filename.replace('\\', '/')
-                    self.level_to_edit.requires.append(('',r))
-                    
+                    self._make_resource_relative(r)
                     save_dnode.dialog.on_escape(save_dnode.dialog)
+                    
                 save_dnode.dialog = kytten.FileSaveDialog(
                     path=dirpath,
                     extensions=['.xml'],
@@ -343,15 +346,20 @@ class TilesetDialog(DialogNode):
             on_select=on_select_click,
             on_escape=dnode.delete)
         self.parent.add(dnode)
-
-
+        
+    
 class ToolMenuDialog(DialogNode):
-    def __init__(self, window, on_new=None, on_open=None, on_save=None,
-                 on_edit=None):
+    def __init__(self, window, on_new=None, on_open=None, on_save=None, 
+                 map_layers=[], level_to_edit=None):
         self.on_new = on_new
         self.on_open = on_open
         self.on_save = on_save
-        self.on_edit = on_edit
+        self.map_layers = map_layers
+        
+        # Correlate opacities with layer ids
+        self.layer_opacities = {}
+        for m in self.map_layers:
+            self.layer_opacities[m.id] = 255
         
         # Load images into a list
         images = []
@@ -369,36 +377,97 @@ class ToolMenuDialog(DialogNode):
             os.path.join('theme', 'artlibre', 'color-fill.png'))))
 
         # Create options from images to pass to Palette
-        options = [[]]
-        options.append([])
-        options.append([])
+        palette_options = [[]]
+        palette_options.append([])
+        palette_options.append([])
         for i, pair in enumerate(images):
             option = PaletteOption(id=pair[0], image=pair[1], padding=4)
-            options[i%3].append(option) # build column down, 3 rows
+            
+            # Build column down, 3 rows
+            palette_options[i%3].append(option) 
             
         def on_tool_select(id):
             self.active_tool = id
             
+        # Reverse order for menu so layer names are top to bottom    
+        layer_options = [layer.id for layer in reversed(self.map_layers)]
+        
+        if len(map_layers):
+            def on_opacity_set(value):
+                m = self.map_layers.selected
+                self.layer_opacities[m.id] = int(value)
+                for s in m._sprites.itervalues():
+                    s.opacity = value
+                    #self.map_layers.selected.set_dirty()
+        else:
+            on_opacity_set = None
+        opacity_slider = kytten.Slider(value=255, max_value=255,steps=8, 
+                                       width=10, on_set=on_opacity_set)
+        def on_layer_select(id):
+            for i, layer in enumerate(self.map_layers):
+                if layer.id is id:
+                    self.map_layers.select(i)
+                    opacity_slider.set_pos(
+                        self.layer_opacities[self.map_layers.selected.id]
+                        / 255.0)
+                    
+        layer_menu = kytten.Menu(layer_options, on_select=on_layer_select)
+        
+        if len(map_layers):
+            def on_add_layer():
+                pass
+            def on_remove_layer():
+                m = self.map_layers
+                if m.selected is not m[0]:
+                    m.remove(m.selected)
+                    del level_to_edit.contents[m.selected.id]
+                    layer_menu.set_options([l.id for l in reversed(m)])
+                    layer_menu.select(m[-1])
+            def on_layer_prop_edit(choice):
+                on_prop_container_edit(self.map_layers.selected, self)
+        else:
+            on_remove_layer = None
+            on_layer_prop_edit = None
+            on_opacity_set = None
+
         super(ToolMenuDialog, self).__init__(kytten.Dialog(
             kytten.Frame(
                 kytten.Scrollable(
                     kytten.VerticalLayout([
-                        Palette(options, on_select=on_tool_select),
-                        #kytten.SectionHeader("Layer"),
-                        kytten.VerticalLayout([]),
+                        Palette(palette_options, on_select=on_tool_select),
+                        kytten.SectionHeader("Layer"),
+                        kytten.VerticalLayout([
+                            NoSelectMenu(
+                                options=["Properties"],
+                                on_select=on_layer_prop_edit),
+                            kytten.HorizontalLayout([
+                                kytten.Label("op"),
+                                opacity_slider,
+                            ]),
+                            layer_menu,
+                            kytten.HorizontalLayout([
+                                kytten.Button("+"),
+                                kytten.Button("x", on_click=on_remove_layer)
+                            ])
+                        ]),
                         kytten.SectionHeader("Map"),
                         kytten.VerticalLayout([
                             NoSelectMenu(
-                                options=["New", "Open", "Save", 
-                                         "Properties", "Quit"],
+                                options=["New", "Open", "Save", "Quit"],
                                 on_select=self._on_filemenu_select),
                         ]),
                     ], align=kytten.HALIGN_CENTER),
                     height=400)
             ),
             window=window,
-            anchor=kytten.ANCHOR_LEFT,
+            anchor=kytten.ANCHOR_TOP_LEFT,
             theme=the_theme))
+            
+        # Select first layer
+        try:
+            layer_menu.select(self.map_layers[-1].id)
+        except:
+            pass
             
     def _on_filemenu_select(self, choice):
         if choice == 'New':
@@ -408,9 +477,6 @@ class ToolMenuDialog(DialogNode):
         elif choice == 'Save':
             if self.on_save is not None:
                 self.on_save()
-        elif choice == 'Properties':
-            if self.on_edit is not None:
-                self.on_edit()
         elif choice == 'Quit':
             director.pop()
             
