@@ -86,7 +86,8 @@ class MenuOption(Control):
         if self.label is not None:
             self.label.delete()
             self.label = None
-        self.saved_dialog.set_needs_layout()
+        if self.saved_dialog is not None:
+            self.saved_dialog.set_needs_layout()
 
     def size(self, dialog):
         if dialog is None:
@@ -134,7 +135,8 @@ class MenuOption(Control):
         if self.background is not None:
             self.background.delete()
             self.background = None
-        self.saved_dialog.set_needs_layout()
+        if self.saved_dialog is not None:
+            self.saved_dialog.set_needs_layout()
 
     def teardown(self):
         self.menu = None

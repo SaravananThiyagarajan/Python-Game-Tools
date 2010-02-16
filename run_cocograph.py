@@ -5,7 +5,6 @@ import pyglet
 pyglet.options['debug_gl'] = False
 from pyglet.gl import *
 
-
 import cocos
 from cocos import tiles, actions
 from cocos.director import director

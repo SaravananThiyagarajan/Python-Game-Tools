@@ -150,6 +150,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
                     # Set dirty is not dirty enough for performance
                     m._sprites[sprite_key] = pyglet.sprite.Sprite(
                         cell.tile.image, x=cx, y=cy, batch=m.batch)
+                    m._sprites[sprite_key].opacity = m.opacity
                     #m.set_dirty()
                     
                 # Picker    
@@ -164,7 +165,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
                 if cell.tile is not None:
                     self.tiles.select_tile(cell.tile.id)
             elif self.tools.active_tool is 'fill':
-                if self.tiles.selected is cell.tile: 
+                if self.tiles.selected is cell.tile:
                     return True
                 old_tile = cell.tile
                 cells_to_fill = []
@@ -217,6 +218,7 @@ class TileEditorLayer(tiles.ScrollableLayer):
                 cell.tile = self.tiles.selected
                 m._sprites[sprite_key] = pyglet.sprite.Sprite(
                     cell.tile.image, x=cx, y=cy, batch=m.batch)
+                m._sprites[sprite_key].opacity = m.opacity
                 #m.set_dirty()
             elif self.tools.active_tool is 'eraser':
                 if cell.tile is not None:
@@ -310,22 +312,32 @@ class EditorScene(cocos.scene.Scene):
         # Setup map layers
         mz = 0
         for id, layer in level_to_edit.find(tiles.MapLayer):
-            #map_layers.append(layer)
+            
+            # Add opacity functionality to layer instance
+            layer.opacity = 255 
+            # Probably a way to do this with decorators?
+            def enhance(lyr):
+                set_dirty = lyr.set_dirty
+                def set_dirty_and_opacity():
+                    set_dirty()
+                    for s in lyr._sprites.itervalues():
+                        s.opacity = lyr.opacity
+                return set_dirty_and_opacity
+            layer.set_dirty = enhance(layer)
+            
             self.manager.add(layer, z=layer.origin_z)
             mz = max(layer.origin_z, mz)
         
-        # Reverse z-sorted manager.children so top layer is Selector[0]
-        self.layer_selector = Selector(
-            self.manager.get_children()[:])
+        # Copy z-sorted manager.children to selector
+        self.layer_selector = Selector(self.manager.get_children()[:])
             
         bg_layer = ScrollableColorLayer(
             255, 255, 255, 255, 
             width=self.layer_selector.selected.px_width, 
             height=self.layer_selector.selected.px_height)
-        self.manager.add(bg_layer, z=-1)
+        self.manager.add(bg_layer, z=-999999)
 
         # Setup new dialogs  
-        self.selected = level_to_edit.find(tiles.MapLayer).next()[1]
         self.tile_dialog = TilesetDialog(director.window, level_to_edit) 
         def on_save():
             level_to_edit.save_xml(edit_level_xml)
@@ -339,8 +351,10 @@ class EditorScene(cocos.scene.Scene):
         self.dialog_layer.add_dialog(self.tool_dialog)
 
         self.editor_layer = TileEditorLayer(
-            level_to_edit=level_to_edit, tiles=self.tile_dialog, 
-            map_layers=self.layer_selector, tools=self.tool_dialog, 
+            level_to_edit=level_to_edit, 
+            tiles=self.tile_dialog, 
+            map_layers=self.layer_selector, 
+            tools=self.tool_dialog, 
             filename=edit_level_xml)
         self.manager.add(self.editor_layer, z=mz+1)
         
