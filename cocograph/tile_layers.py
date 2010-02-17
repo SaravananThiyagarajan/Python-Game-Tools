@@ -312,19 +312,6 @@ class EditorScene(cocos.scene.Scene):
         # Setup map layers
         mz = 0
         for id, layer in level_to_edit.find(tiles.MapLayer):
-            
-            # Add opacity functionality to layer instance
-            layer.opacity = 255 
-            # Probably a way to do this with decorators?
-            def enhance(lyr):
-                set_dirty = lyr.set_dirty
-                def set_dirty_and_opacity():
-                    set_dirty()
-                    for s in lyr._sprites.itervalues():
-                        s.opacity = lyr.opacity
-                return set_dirty_and_opacity
-            layer.set_dirty = enhance(layer)
-            
             self.manager.add(layer, z=layer.origin_z)
             mz = max(layer.origin_z, mz)
         
@@ -339,6 +326,9 @@ class EditorScene(cocos.scene.Scene):
 
         # Setup new dialogs  
         self.tile_dialog = TilesetDialog(director.window, level_to_edit) 
+        def on_resize(width, height):
+            self.tile_dialog.scrollable.max_width = width - 30
+        self.dialog_layer.on_resize = on_resize
         def on_save():
             level_to_edit.save_xml(edit_level_xml)
         self.tool_dialog = ToolMenuDialog(
