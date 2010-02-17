@@ -570,7 +570,7 @@ class ToolMenuDialog(DialogNode):
                     values = dialog.get_values()
                     layer = tiles.RectMapLayer(values[ID], int(values[TW]), 
                                                int(values[TH]), cells, 
-                                               (0, 0, int(values[OZ])))
+                                               (0, 0, int(values[OZ])), {})
                     self._add_opacity(layer)
                     self.map_layers.append(layer)
                     self.map_layers.sort(lambda x, y: x.origin_z - y.origin_z)
