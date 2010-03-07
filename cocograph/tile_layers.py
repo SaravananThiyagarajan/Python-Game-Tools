@@ -34,7 +34,7 @@ from cocos.director import director
 from tile_dialogs import *
 
 
-VERSION = 'Cocograph 0.4'
+VERSION = 'Cocograph 0.2.0'
 
 def _zoom_in(scale):
     if scale > 4: return scale

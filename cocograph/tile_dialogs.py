@@ -55,6 +55,11 @@ the_theme = kytten.Theme(os.path.join(os.getcwd(), 'theme'), override={
 
 the_image_extensions = ['.png', '.jpg', '.bmp', '.gif', '.tga']
 
+def texture_set_mag_filter_nearest(texture):
+    glBindTexture(texture.target, texture.id)
+    glTexParameteri(texture.target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    glBindTexture(texture.target, 0)
+
 def on_prop_container_edit(prop_container, parent_dnode, filename=None):
     if prop_container is None:
         return
@@ -258,6 +263,7 @@ class TilesetDialog(DialogNode):
             tile_options = [[]]
             tile_options.append([])
             for i, k in enumerate(sorted(tset)): # Sort to keep order
+                texture_set_mag_filter_nearest(tset[k].image.get_texture())
                 option = TilePaletteOption(
                     id=k, 
                     image=tset[k].image, 
