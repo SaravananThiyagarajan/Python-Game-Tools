@@ -1,9 +1,6 @@
-Cocograph tile map editor for cocos2d
-requires: python 2.5+, pyglet, cocos2d, and kytten
-
-Commandline Usage: run_cocograph.py <level.xml> to open a level
-or simply run or double click run_cocograph.py and then open or create
-a new map.
+Cocograph v0.2.0 tile map editor for cocos2d
+requires: python 2.5+
+included: pyglet, cocos2d, and kytten (could becomde dependencies later)
 
 
 How to use
@@ -22,9 +19,24 @@ tileset from the tileset dialog menu or create a new one.
 
 Creating a New Tileset
 
+From Dir:
 Select a directory containing images (.png, ,jpg, .bmp, .gif), you 
 can then save the tileset and it will be loaded into Cocograph. You
 will probably want the images in the directory to be the same size.
+
+From Image:
+Select and image, enter the tile size and if there's any padding
+around the tiles. You can then save the tileset and it will be loaded 
+into Cocograph.
+
+
+Layers
+
+The 'op' slider adjusts the opacity of the currently selected layer.
+'+' adds a new layer.  Enter a layer ID, tile size, and Z origin
+(to determine the ordering of layers). '-' removes the currently 
+selected layer. 'Properties' allows you to add / change properties
+for the currently selected layer.
 
 
 Tools
@@ -49,6 +61,10 @@ mouse scroll wheel              zoom
 ctrl+d                          debug info toggle
 ctrl+q                          quit
 ctrl+s                          save
+
+Commandline Usage: run_cocograph.py <level.xml> to open a level
+or simply run or double click run_cocograph.py and then open or create
+a new map.
 
 
 LICENSE:
