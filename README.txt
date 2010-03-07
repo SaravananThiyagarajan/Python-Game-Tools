@@ -1,6 +1,6 @@
 Cocograph v0.2.0 tile map editor for cocos2d
-requires: python 2.5+
-included: pyglet, cocos2d, and kytten (could becomde dependencies later)
+requires: python 2.5+, pyglet 1.1+
+included: cocos2d, and kytten (could become dependencies later)
 
 
 How to use
