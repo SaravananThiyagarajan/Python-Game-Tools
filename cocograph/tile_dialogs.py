@@ -158,7 +158,7 @@ def _generic_as_xml(resource, parent, tag):
 
 class TilesetDialog(DialogNode):
     _id_count = 0
-    def __init__(self, window=None, level_to_edit=None, tile_size=32):
+    def __init__(self, window=None, level_to_edit=None, tile_size=24):
         self.level_to_edit = level_to_edit
         self.tilesets = {}
         self.tile_size = tile_size
@@ -209,22 +209,22 @@ class TilesetDialog(DialogNode):
             
         # Create tileset file menu
         self.file_menu = kytten.VerticalLayout([
-            kytten.SectionHeader("Tileset"),
-            NoSelectMenu(['From Dir', 'From Image', 'Open'], 
-                on_select=on_menu_select)])
+            kytten.FoldingSection("Tileset", NoSelectMenu(
+                ['From Dir', 'From Image', 'Open'], on_select=on_menu_select))])
                     
         # Create final combined tileset dialog
-        self.hlayout = kytten.HorizontalLayout(
+        self.layout = kytten.VerticalLayout(
             [self.file_menu, self.vlayout])
             
-        self.scrollable = kytten.Scrollable(self.hlayout, 
-                                            width=window.width-30)
+        self.scrollable = kytten.Scrollable(self.layout, 
+                                            height=window.height-30,
+                                            width=192)
             
         super(TilesetDialog, self).__init__(
             kytten.Dialog(
                 kytten.Frame(self.scrollable),
                 window=window,
-                anchor=kytten.ANCHOR_BOTTOM,
+                anchor=kytten.ANCHOR_TOP_RIGHT,
                 theme=the_theme))
                 
         # Make first palette active
@@ -261,15 +261,27 @@ class TilesetDialog(DialogNode):
                 
         for id, tset in self.tilesets.iteritems():
             tile_options = [[]]
-            tile_options.append([])
-            for i, k in enumerate(sorted(tset)): # Sort to keep order
+            
+            # Sort to keep order
+            for i, k in enumerate(sorted(tset, key=str.lower)): 
                 texture_set_mag_filter_nearest(tset[k].image.get_texture())
                 option = TilePaletteOption(
                     id=k, 
                     image=tset[k].image, 
                     scale_size=self.tile_size, 
                     on_edit=self._on_tile_edit)
-                tile_options[i%2].append(option)
+                img = tset[k].image
+                if isinstance(img, pyglet.image.ImageDataRegion):
+                    option_index = img.y // img.width
+                else:
+                    option_index = i // 8 # Default
+                try:
+                    tile_options[option_index].append(option)
+                except IndexError:
+                    for x in range(option_index):
+                        tile_options.append([])
+                    tile_options[option_index].append(option)
+            tile_options.reverse() # Reverse to match image
             self.palettes[id] = Palette(tile_options, 
                                         on_select=on_tile_select)
         try:
@@ -349,28 +361,32 @@ class TilesetDialog(DialogNode):
                                                size=size, file=imagepath)
         atlas_element.text = '\n'
         atlas_element.tail = '\n'
-        for x in range(padding, img.width, tw + double_padding):
-            for y in range(padding, img.height, th + double_padding):
+        id_count = 0
+        for y in reversed(range(padding, img.height, th + double_padding)):
+            for x in range(padding, img.width, tw + double_padding):
                 img_element = ElementTree.SubElement(
                     atlas_element, 
                     'image', 
-                    id='i-%s-%d-%d' % (xmlname, x, y),
+                    id='i-%s-%04d' % (xmlname, id_count),
                     offset='%d,%d' % (x, y))
                 img_element.tail = '\n'
+                id_count += 1
         tset_element = ElementTree.SubElement(root, 'tileset', id=xmlname)
         tset_element.text = '\n'
         tset_element.tail = '\n'
-        for x in range(padding, img.width, tw + double_padding):
-            for y in range(padding, img.height, th + double_padding):
+        id_count = 0
+        for y in reversed(range(padding, img.height, th + double_padding)):
+            for x in range(padding, img.width, tw + double_padding):
                 t_element = ElementTree.SubElement(
                     tset_element, 
                     'tile', 
-                    id='%s-%d-%d' % (xmlname, x, y))
+                    id='%s-%04d' % (xmlname, id_count))
                 t_element.tail = '\n'
                 ElementTree.SubElement(
                     t_element, 
                     'image', 
-                    ref='i-%s-%d-%d' % (xmlname, x, y))
+                    ref='i-%s-%04d' % (xmlname, id_count))
+                id_count += 1
         tree = ElementTree.ElementTree(root)
         tree.write(xmlpath)
         r = tiles.load(xmlpath)
