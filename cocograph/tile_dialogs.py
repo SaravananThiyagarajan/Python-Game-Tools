@@ -158,11 +158,11 @@ def _generic_as_xml(resource, parent, tag):
 
 class TilesetDialog(DialogNode):
     _id_count = 0
-    def __init__(self, window=None, level_to_edit=None, tile_size=24):
+    def __init__(self, window=None, level_to_edit=None, tile_size=None):
         self.level_to_edit = level_to_edit
         self.tilesets = {}
-        self.tile_size = tile_size
         self.selected = None
+        self.tile_size = tile_size
         self.palettes = {}
         self.vlayout = None
         self._load_tilesets(level_to_edit)
@@ -193,6 +193,7 @@ class TilesetDialog(DialogNode):
                 self.active_tileset = self.tilesets[id]
                 self.active_palette = self.palettes[id]
                 self.vlayout.set([self.palette_menu, self.active_palette])
+                self.layout.set([self.file_menu, self.vlayout])
                 #~ self.active_palette.select(
                     #~ self.active_palette.options.iterkeys().next())
         
@@ -215,10 +216,11 @@ class TilesetDialog(DialogNode):
         # Create final combined tileset dialog
         self.layout = kytten.VerticalLayout(
             [self.file_menu, self.vlayout])
+        print self.layout.is_expandable()
             
         self.scrollable = kytten.Scrollable(self.layout, 
-                                            height=window.height-30,
-                                            width=192)
+                                            height=window.height-32,
+                                            width=288)
             
         super(TilesetDialog, self).__init__(
             kytten.Dialog(
@@ -261,27 +263,39 @@ class TilesetDialog(DialogNode):
                 
         for id, tset in self.tilesets.iteritems():
             tile_options = [[]]
-            
+            img = tset.itervalues().next().image
+            is_atlas = isinstance(img, pyglet.image.ImageData)
+            if self.tile_size != None:
+                tile_size = self.tile_size
+            else:
+                tile_size = img.width   
+                while tile_size < 32:
+                    tile_size = tile_size * 2
+                while tile_size > 32: 
+                    tile_size = tile_size // 2
+            default_row_tile_count = tile_size // 4
+    
             # Sort to keep order
             for i, k in enumerate(sorted(tset, key=str.lower)): 
                 texture_set_mag_filter_nearest(tset[k].image.get_texture())
+                img = tset[k].image
                 option = TilePaletteOption(
                     id=k, 
                     image=tset[k].image, 
-                    scale_size=self.tile_size, 
+                    scale_size=tile_size, 
                     on_edit=self._on_tile_edit)
-                img = tset[k].image
-                if isinstance(img, pyglet.image.ImageDataRegion):
+                if is_atlas:
                     option_index = img.y // img.width
                 else:
-                    option_index = i // 8 # Default
+                    option_index = i // default_row_tile_count
                 try:
                     tile_options[option_index].append(option)
                 except IndexError:
                     for x in range(option_index):
                         tile_options.append([])
                     tile_options[option_index].append(option)
-            tile_options.reverse() # Reverse to match image
+            if is_atlas:
+                tile_options.reverse() # Reverse to match image
             self.palettes[id] = Palette(tile_options, 
                                         on_select=on_tile_select)
         try:

@@ -283,6 +283,8 @@ class EditorScene(cocos.scene.Scene):
         self.manager = tiles.ScrollingManager()
         self.add(self.manager)
         self.dialog_layer = DialogLayer()
+        #self.scrollbar_layer = DialogLayer()
+        #self.dialog_layer.add_dialog(DialogNode(kytten.Dialog(kytten.Frame(kytten.Scrollable(kytten.Spacer(100, 100), width=50, height=50)))))
         self.editor_layer = None
         self.tool_dialog = ToolMenuDialog(director.window, 
                                           on_open=self.open)
@@ -297,6 +299,7 @@ class EditorScene(cocos.scene.Scene):
         if self.tile_dialog is not None:
             self.tile_dialog.delete()
         self.tool_dialog.delete()
+        #self.remove(self.scrollbar_layer)
         self.remove(self.dialog_layer)
         
         # Load level
@@ -327,7 +330,7 @@ class EditorScene(cocos.scene.Scene):
         # Setup new dialogs  
         self.tile_dialog = TilesetDialog(director.window, level_to_edit) 
         def on_resize(width, height):
-            self.tile_dialog.scrollable.max_width = width - 30
+            self.tile_dialog.scrollable.max_height = height - 32
         self.dialog_layer.on_resize = on_resize
         def on_save():
             level_to_edit.save_xml(edit_level_xml)
@@ -352,7 +355,8 @@ class EditorScene(cocos.scene.Scene):
         
         # XXX if I don't remove and add the dlayer event handling is 
         # messed up...why?
-        self.add(self.dialog_layer, z=mz+2) 
+        #self.add(self.scrollbar_layer, z=mz+2)
+        self.add(self.dialog_layer, z=mz+3) 
         
     def edit_complete(self, layer):
         pyglet.app.exit()
