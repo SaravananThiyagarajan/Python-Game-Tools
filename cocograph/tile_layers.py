@@ -330,7 +330,7 @@ class EditorScene(cocos.scene.Scene):
         # Setup new dialogs  
         self.tile_dialog = TilesetDialog(director.window, level_to_edit) 
         def on_resize(width, height):
-            self.tile_dialog.scrollable.max_height = height - 32
+            self.tile_dialog.scrollable.max_height = height - 48
         self.dialog_layer.on_resize = on_resize
         def on_save():
             level_to_edit.save_xml(edit_level_xml)

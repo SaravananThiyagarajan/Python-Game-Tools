@@ -216,7 +216,6 @@ class TilesetDialog(DialogNode):
         # Create final combined tileset dialog
         self.layout = kytten.VerticalLayout(
             [self.file_menu, self.vlayout])
-        print self.layout.is_expandable()
             
         self.scrollable = kytten.Scrollable(self.layout, 
                                             height=window.height-32,
@@ -264,7 +263,8 @@ class TilesetDialog(DialogNode):
         for id, tset in self.tilesets.iteritems():
             tile_options = [[]]
             img = tset.itervalues().next().image
-            is_atlas = isinstance(img, pyglet.image.ImageData)
+            is_atlas = isinstance(img, pyglet.image.TextureRegion) \
+                or isinstance(img, pyglet.image.ImageDataRegion)
             if self.tile_size != None:
                 tile_size = self.tile_size
             else:
@@ -276,12 +276,13 @@ class TilesetDialog(DialogNode):
             default_row_tile_count = tile_size // 4
     
             # Sort to keep order
-            for i, k in enumerate(sorted(tset, key=str.lower)): 
-                texture_set_mag_filter_nearest(tset[k].image.get_texture())
-                img = tset[k].image
+            for i, k in enumerate(sorted(tset, key=str.lower)):
+                img = tset[k].image 
+                #texture_set_mag_filter_nearest(img.get_texture())
+                
                 option = TilePaletteOption(
                     id=k, 
-                    image=tset[k].image, 
+                    image=img, 
                     scale_size=tile_size, 
                     on_edit=self._on_tile_edit)
                 if is_atlas:
