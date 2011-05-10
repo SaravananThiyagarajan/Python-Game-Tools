@@ -1,0 +1,108 @@
+=============================================================================
+= Python Game Tools - README
+=============================================================================
+
+==Project Overview==
+Python is an excellent language for game development. For many years if you
+wanted to do game development with python you would use pyGame. The problem 
+with pyGame is that it is still very much tied to it's C/C++ implementation 
+the Simple Direct Media Layer(SDL). So in 2006 the pyglet library launched and 
+revolutionized game development with python by making itself well, pythonic. 
+Not only does it provide excellent bindings for openGL it also is capable at 
+handling everything from user input, sound and video, resource management and 
+an excellent event manager and scheduler. Unfortunately however pyglet does not
+aim to provide higher level functions like scene management, transitions, tiled
+maps, data driven development or flow control so the cocos2d project was formed
+to address these concerns, and does so excellently. In addition to the cocos2d
+project wrapping itself around pyglet to provide high level game development
+functions the kytten project formed to provide a high level GUI framework.
+
+What these projects have accomplished is incredible and a service to anyone 
+who are looking to create games with python. Despite these accomplishments
+developers looking to create games with python still turn to pyGame. Why?
+
+I believe that the source of this problem is due to one critical factor: 
+
+**Poor Developer Support**
+
+What these projects have difficulty with is providing a low barrier of entry
+for new developers. In addition there is no one single resource for developers
+to turn to.
+
+In short:
+
+TL;DR: The aim of this project is to package the best of the best of what Python
+has to offer for 2D Game Development and provide excellent documentation to go along with it.
+
+==The Source Projects==
+	
+	pyglet 1.1.4 (c) 2006-2008 Alex Holkner - BSD License
+	cocos2d 0.4.0 (c) 2008-2010 Daniel Moisset, Ricardo Quesada, Rayentray Tappa, Lucio Torre - BSD License
+	kytten 5.8.5 (c) 2009 Conrad "Lynx" Wong - BSD License
+	cocograph (c) 2009 Devon Scott-Tunkin - BSD License
+
+	In honor of the source packages and the open source ethos The Python Game Tools package and project will also be licensed under the BSD License. 
+
+==The License==
+
+	Copyright (c) 2011, Raymond Chandler III
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+	    * Redistributions of source code must retain the above copyright
+	      notice, this list of conditions and the following disclaimer.
+	    * Redistributions in binary form must reproduce the above copyright
+	      notice, this list of conditions and the following disclaimer in the
+	      documentation and/or other materials provided with the distribution.
+	    * Neither the name of the Python Game Tools nor the
+	      names of its contributors may be used to endorse or promote products
+	      derived from this software without specific prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+	DISCLAIMED. IN NO EVENT SHALL Raymond Chandler III BE LIABLE FOR ANY
+	DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+	All Documentation for the Python Game Tools project is licensed under the Creative Commons Attribution Share-Alike license:
+
+		http://creativecommons.org/licenses/by-sa/3.0/
+ 
+==The Plan==
+
+Step 1 - Clone and Fork
+
+	For the first part of this project we will fork each of these projects and build a single easy_install
+	package so that each project can be installed safely at once. Many of the source projects utilize subversion
+	instead of git. We will utilize the git-svn bridge to import upstream releases into the main package. In
+	the future we will evaulate new releases of the upstream projects to merge them into the main branch of
+	Python Game Tools.
+
+Step 2 - Documentation Website
+
+	For the second part we will deploy a web site to host documentation for each of the source projects
+and rebuild the base documentation for the source projects with Sphinx. This will then be hosted on read-the-docs.
+
+	We will then extend the documentation to match the strategy seen in the Django Framework and follow the guidelines 
+	laid out by Jacob Kaplan-Moss from PyCon 2011 here: 
+
+	http://blip.tv/file/4881071/?utm_source=blip&utm_medium=site_search&utm_content=itnk&utm_campaign=s_ab
+
+	See Documentation.png for more information.
+
+	When the project is ready we will launch a website dedicated to supporting a developer community around the
+	Python Game Tools Project.
+
+Step 3 - Extend & Maintain
+
+	Extend each of these projects and work with the upstream developers to keep the Python Game Tools package
+	up-to-date. We will also work to write integration and regression tests so that each of these projects 
+	interoperate together well.
+
