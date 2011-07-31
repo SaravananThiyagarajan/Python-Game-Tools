@@ -1,4 +1,0 @@
-
-class NoAudioError(Exception):
-    pass
-
