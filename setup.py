@@ -46,10 +46,14 @@ setup(
         ("Topic :: Games/Entertainment"),
         ],
 
-    install_requires=['pyglet>=1.1.4', 'cocos2d>=0.4.0', 'kytten>6.0.0'],
+    install_requires=['pyglet>=1.1.4', 
+			'cocos2d>=0.4.0',
+			 'kytten>=6.0.0',
+			 'cocograph>=0.1.0'],
     dependency_links=['http://code.google.com/p/pyglet/downloads/list',
 			'http://code.google.com/p/los-cocos/downloads/list',
-			'https://github.com/kitanata/Kytten/tarball/master'],
+			'https://github.com/kitanata/Kytten/tarball/master',
+			'https://github.com/kitanata/cocograph/tarball/master'],
 
     include_package_data = True,
     zip_safe = False,    
